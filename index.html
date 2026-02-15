@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bookmarkr - Your Reading Journey</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Lora:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <div class="logo">
+                <img src="logo.png" alt="Bookmarkr" class="logo-icon-img">
+                <span class="logo-text">Bookmarkr</span>
+            </div>
+        </div>
+        
+        <nav class="sidebar-nav">
+            <button class="nav-item active" data-view="home">
+                <span class="nav-icon">🏠</span>
+                <span class="nav-text">Home</span>
+            </button>
+            <button class="nav-item" data-view="library">
+                <span class="nav-icon">📖</span>
+                <span class="nav-text">My Library</span>
+            </button>
+            <button class="nav-item" data-view="genres">
+                <span class="nav-icon">🏷️</span>
+                <span class="nav-text">Genres</span>
+            </button>
+            <button class="nav-item" data-view="highlights">
+                <span class="nav-icon">✨</span>
+                <span class="nav-text">Highlights & Quotes</span>
+            </button>
+            <button class="nav-item" data-view="stats">
+                <span class="nav-icon">📊</span>
+                <span class="nav-text">Stats</span>
+            </button>
+            <button class="nav-item" data-view="calendar">
+                <span class="nav-icon">📅</span>
+                <span class="nav-text">Calendar</span>
+            </button>
+        </nav>
+
+        <div class="sidebar-footer">
+            <div class="reading-streak">
+                <div class="streak-icon">🔥</div>
+                <div class="streak-info">
+                    <div class="streak-number" id="streakCount">0</div>
+                    <div class="streak-label">Day Streak</div>
+                </div>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+        <!-- Home View -->
+        <section class="view active" id="homeView">
+            <div class="page-header">
+                <h1 class="page-title" id="dynamicGreeting">Welcome back 📖</h1>
+                <p class="page-subtitle">Continue your reading journey</p>
+            </div>
+
+            <div class="content-grid">
+                <!-- Currently Reading Section -->
+                <div class="section-card full-width">
+                    <div class="section-header">
+                        <h2 class="section-title">Currently Reading</h2>
+                        <button class="btn-add" id="addBookBtn">
+                            <span>+</span> Add Book
+                        </button>
+                    </div>
+                    <div class="currently-reading" id="currentlyReading">
+                        <div class="empty-state">
+                            <div class="empty-icon">📚</div>
+                            <h3>No books in progress</h3>
+                            <p>Start tracking your reading journey by adding a book</p>
+                            <button class="btn-primary" id="addFirstBook">Add Your First Book</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Lifetime Stats -->
+                <div class="section-card full-width">
+                    <div class="section-header">
+                        <h2 class="section-title">Lifetime Stats</h2>
+                    </div>
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-icon">📚</div>
+                            <div class="stat-content">
+                                <div class="stat-value" id="totalBooks">0</div>
+                                <div class="stat-label">Total Books</div>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">✅</div>
+                            <div class="stat-content">
+                                <div class="stat-value" id="finishedBooks">0</div>
+                                <div class="stat-label">Books Finished</div>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">📄</div>
+                            <div class="stat-content">
+                                <div class="stat-value" id="totalPages">0</div>
+                                <div class="stat-label">All Pages Read</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Library View -->
+        <section class="view" id="libraryView">
+            <div class="page-header">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <div>
+                        <h1 class="page-title">My Library</h1>
+                        <p class="page-subtitle">All your books in one place</p>
+                    </div>
+                    <button class="btn-add" onclick="openAddBookModal()">
+                        <span>+</span> Add Book
+                    </button>
+                </div>
+            </div>
+
+            <div class="library-filters">
+                <button class="filter-btn active" data-filter="all">All Books</button>
+                <button class="filter-btn" data-filter="reading">Reading</button>
+                <button class="filter-btn" data-filter="finished">Finished</button>
+                <button class="filter-btn" data-filter="want">Want to Read</button>
+            </div>
+
+            <div class="genre-filters" id="genreFilters">
+                <button class="genre-filter-btn active" data-genre="all">📚 All Genres</button>
+                <button class="genre-filter-btn" data-genre="Productivity">⚙️ Productivity</button>
+                <button class="genre-filter-btn" data-genre="Psychology">🧠 Psychology</button>
+                <button class="genre-filter-btn" data-genre="Non-Fiction">🌿 Non-Fiction</button>
+                <button class="genre-filter-btn" data-genre="Finance">💰 Finance</button>
+                <button class="genre-filter-btn" data-genre="Business">🏢 Business</button>
+                <button class="genre-filter-btn" data-genre="Philosophy">🏛️ Philosophy</button>
+                <button class="genre-filter-btn" data-genre="Fiction">📖 Fiction</button>
+                <button class="genre-filter-btn" data-genre="Self-Help">💪 Self-Help</button>
+                <button class="genre-filter-btn" data-genre="History">📜 History</button>
+                <button class="genre-filter-btn" data-genre="Children's">👶 Children's</button>
+            </div>
+
+            <div class="books-grid" id="booksGrid">
+                <div class="empty-state">
+                    <div class="empty-icon">📚</div>
+                    <h3>Your library is empty</h3>
+                    <p>Add books to start building your collection</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Genres View -->
+        <section class="view" id="genresView">
+            <div class="page-header">
+                <h1 class="page-title">Browse by Genre</h1>
+                <p class="page-subtitle">Explore your collection by category</p>
+            </div>
+
+            <div class="genres-grid" id="genresGrid">
+                <!-- Genres will be generated by JavaScript -->
+            </div>
+        </section>
+
+        <!-- Highlights View -->
+        <section class="view" id="highlightsView">
+            <div class="page-header">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <div>
+                        <h1 class="page-title">Highlights & Quotes</h1>
+                        <p class="page-subtitle">Your favorite passages and insights</p>
+                    </div>
+                    <button class="btn-add" id="addQuoteBtn">
+                        <span>+</span> Add Quote
+                    </button>
+                </div>
+            </div>
+
+            <div class="highlights-filters">
+                <button class="highlights-filter-btn active" data-filter="all">All Quotes</button>
+                <button class="highlights-filter-btn" data-filter="favorites">⭐ Favorites</button>
+            </div>
+
+            <div class="quotes-grid" id="quotesGrid">
+                <div class="empty-state">
+                    <div class="empty-icon">✨</div>
+                    <h3>No highlights yet</h3>
+                    <p>Start highlighting your favorite passages as you read</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Stats View -->
+        <section class="view" id="statsView">
+            <div class="page-header">
+                <h1 class="page-title">Reading Statistics</h1>
+                <p class="page-subtitle">Track your reading progress over time</p>
+            </div>
+
+            <!-- Reading Breakdown Chart -->
+            <div class="section-card full-width">
+                <div class="section-header">
+                    <h2 class="section-title">Reading Breakdown</h2>
+                </div>
+                <div class="chart-container">
+                    <canvas id="readingChart"></canvas>
+                </div>
+                <div class="chart-legend" id="chartLegend"></div>
+            </div>
+
+            <div class="stats-overview">
+                <div class="stat-card-large">
+                    <h3>This Month</h3>
+                    <div class="large-stat-value" id="monthPages">0</div>
+                    <div class="stat-label">Pages Read</div>
+                </div>
+                <div class="stat-card-large">
+                    <h3>This Year</h3>
+                    <div class="large-stat-value" id="yearBooks">0</div>
+                    <div class="stat-label">Books Finished</div>
+                </div>
+                <div class="stat-card-large">
+                    <h3>Average</h3>
+                    <div class="large-stat-value" id="avgPages">0</div>
+                    <div class="stat-label">Pages/Day</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Calendar View -->
+        <section class="view" id="calendarView">
+            <div class="page-header">
+                <h1 class="page-title">Reading Calendar</h1>
+                <p class="page-subtitle">Your reading consistency tracker</p>
+            </div>
+
+            <div class="calendar-controls">
+                <button class="calendar-nav" id="prevMonth">←</button>
+                <h2 class="calendar-month" id="calendarMonth">January 2024</h2>
+                <button class="calendar-nav" id="nextMonth">→</button>
+            </div>
+
+            <div class="calendar-grid" id="calendarGrid">
+                <!-- Calendar will be generated by JavaScript -->
+            </div>
+
+            <div class="calendar-legend">
+                <div class="legend-item">
+                    <div class="legend-color" style="background: #e8e8e8;"></div>
+                    <span>No reading</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background: #c6e48b;"></div>
+                    <span>1-50 pages</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background: #7bc96f;"></div>
+                    <span>51-100 pages</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background: #239a3b;"></div>
+                    <span>100+ pages</span>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Add Book Modal -->
+    <div class="modal" id="addBookModal">
+        <div class="modal-overlay"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Add a Book</h2>
+                <button class="modal-close" id="closeModal">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="search-container">
+                    <input type="text" class="search-input" id="bookSearch" placeholder="Search for a book...">
+                    <div class="search-results" id="searchResults"></div>
+                </div>
+
+                <div class="manual-add">
+                    <button class="btn-secondary" id="manualAddBtn">Or add manually</button>
+                </div>
+
+                <form class="book-form hidden" id="manualForm">
+                    <div class="form-group">
+                        <label>Book Title</label>
+                        <input type="text" id="bookTitle" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Author</label>
+                        <input type="text" id="bookAuthor" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Total Pages</label>
+                        <input type="number" id="bookPages" required min="1">
+                    </div>
+                    <div class="form-group">
+                        <label>Current Page</label>
+                        <input type="number" id="currentPage" value="0" min="0">
+                    </div>
+                    <div class="form-group">
+                        <label>Status</label>
+                        <select id="bookStatus">
+                            <option value="reading">Currently Reading</option>
+                            <option value="want">Want to Read</option>
+                            <option value="finished">Finished</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Genre</label>
+                        <select id="bookGenre">
+                            <option value="">No Genre</option>
+                            <option value="Productivity">⚙️ Productivity</option>
+                            <option value="Psychology">🧠 Psychology</option>
+                            <option value="Non-Fiction">🌿 Non-Fiction</option>
+                            <option value="Finance">💰 Finance</option>
+                            <option value="Business">🏢 Business</option>
+                            <option value="Philosophy">🏛️ Philosophy</option>
+                            <option value="Fiction">📖 Fiction</option>
+                            <option value="Self-Help">💪 Self-Help</option>
+                            <option value="History">📜 History</option>
+                            <option value="Children's">👶 Children's</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Book Cover (Optional)</label>
+                        <div class="file-upload-wrapper">
+                            <label for="bookCoverUpload" class="file-upload-label">
+                                📷 Choose Cover Image
+                            </label>
+                            <input type="file" id="bookCoverUpload" class="file-upload-input" accept="image/*">
+                        </div>
+                        <div id="coverPreview" class="current-cover-preview" style="display: none;"></div>
+                    </div>
+                    <button type="submit" class="btn-primary">Add Book</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Update Progress Modal -->
+    <div class="modal" id="progressModal">
+        <div class="modal-overlay"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title" id="progressBookTitle">Update Progress</h2>
+                <button class="modal-close" id="closeProgressModal">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="progress-form">
+                    <div class="current-progress" id="currentProgressDisplay"></div>
+                    <div class="form-group">
+                        <label>Current Page</label>
+                        <input type="number" id="updatePage" min="0">
+                    </div>
+                    <button class="btn-primary" id="saveProgress">Save Progress</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Book Modal -->
+    <div class="modal" id="editBookModal">
+        <div class="modal-overlay"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Edit Book</h2>
+                <button class="modal-close" id="closeEditModal">×</button>
+            </div>
+            <div class="modal-body">
+                <form class="book-form" id="editForm">
+                    <div class="form-group">
+                        <label>Book Title</label>
+                        <input type="text" id="editBookTitle" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Author</label>
+                        <input type="text" id="editBookAuthor" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Total Pages</label>
+                        <input type="number" id="editBookPages" required min="1">
+                    </div>
+                    <div class="form-group">
+                        <label>Current Page</label>
+                        <input type="number" id="editCurrentPage" min="0">
+                    </div>
+                    <div class="form-group">
+                        <label>Status</label>
+                        <select id="editBookStatus">
+                            <option value="reading">Currently Reading</option>
+                            <option value="want">Want to Read</option>
+                            <option value="finished">Finished</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Genre</label>
+                        <select id="editBookGenre">
+                            <option value="">No Genre</option>
+                            <option value="Productivity">⚙️ Productivity</option>
+                            <option value="Psychology">🧠 Psychology</option>
+                            <option value="Non-Fiction">🌿 Non-Fiction</option>
+                            <option value="Finance">💰 Finance</option>
+                            <option value="Business">🏢 Business</option>
+                            <option value="Philosophy">🏛️ Philosophy</option>
+                            <option value="Fiction">📖 Fiction</option>
+                            <option value="Self-Help">💪 Self-Help</option>
+                            <option value="History">📜 History</option>
+                            <option value="Children's">👶 Children's</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Book Cover</label>
+                        <div class="file-upload-wrapper">
+                            <label for="editBookCoverUpload" class="file-upload-label">
+                                📷 Change Cover Image
+                            </label>
+                            <input type="file" id="editBookCoverUpload" class="file-upload-input" accept="image/*">
+                        </div>
+                        <div id="editCoverPreview" class="current-cover-preview"></div>
+                    </div>
+                    <div class="edit-actions">
+                        <button type="submit" class="btn-primary" style="flex: 1;">Save Changes</button>
+                        <button type="button" class="btn-secondary btn-danger" id="deleteBookBtn">Delete Book</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Quote Modal -->
+    <div class="modal" id="addQuoteModal">
+        <div class="modal-overlay"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Add a Quote</h2>
+                <button class="modal-close" id="closeQuoteModal">×</button>
+            </div>
+            <div class="modal-body">
+                <form class="book-form" id="quoteForm">
+                    <div class="form-group">
+                        <label>Select Book</label>
+                        <select id="quoteBookSelect" required>
+                            <option value="">Choose a book...</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Quote</label>
+                        <textarea id="quoteText" rows="4" required placeholder="Enter your favorite quote..."></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Page Number (Optional)</label>
+                        <input type="number" id="quotePage" min="1" placeholder="Page number">
+                    </div>
+                    <div class="form-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="quoteFavorite">
+                            <span>⭐ Mark as Favorite</span>
+                        </label>
+                    </div>
+                    <button type="submit" class="btn-primary">Save Quote</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
